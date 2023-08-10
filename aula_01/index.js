@@ -13,7 +13,7 @@ if (situacao) {
 }
 
 // laços
-const lista = ["Douglas", "Laízia", "Otávio", "Diego", "João"];
+const lista = ["Douglas", "Laízia", "Otávio", "Diego", "João", "Jean"];
 const tamanhoLista = lista.length - 1;
 console.log("tamanho da lista:" + tamanhoLista);
 
