@@ -17,7 +17,7 @@
                 <div class="image-logo">
                     <img src="./images/logo.png" alt="logo da lista">
                 </div>
-                <div class="card-tilte">
+                <div class="card-title">
                     <h1>Lista de Compras</h1>
                     <div class="card-title-line"></div>
                 </div>
@@ -29,16 +29,45 @@
                             </span>
                         </div>
                         <div class="item-description">
-
+                            <div class="card-content-input">
+                                <input type="text"/>
+                            </div>
+                        </div>
+                        <div class="item-rad">
+                            <span class="material-symbols-outlined">
+                                radio_button_unchecked
+                            </span>
+                        </div>
+                    </li>
+                    <li class="card-content-item">
+                        <div class="item-del">
+                            <span class="material-symbols-outlined">
+                                close
+                            </span>
+                        </div>
+                        <div class="item-description">
+                            <div class="card-content-input card-content-input-checked">
+                                <input type="text" value="teste" disabled/>
+                            </div>
+                        </div>
+                        <div class="item-rad item-rad-checked">
+                            <span class="material-symbols-outlined">
+                                check_circle
+                            </span>
                         </div>
                     </li>
                 </ul>
-
-
-                <script src="./js/index.js"></script>
+            </div>
+            <div class="card-button">
+                <div class="button-add">
+                    <span class="material-symbols-outlined">
+                        add
+                    </span>
+                </div>
             </div>
         </div>
     </div>
+    <script src="./js/index.js"></script>
 </body>
 
 </html>
