@@ -119,7 +119,7 @@ li {
     overflow-y: scroll;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     width: 0px;
 }
 
@@ -144,13 +144,13 @@ li {
 
 .card-content-input input:focus {
     outline: 0px;
-    border-top:0px;
+    border-top: 0px;
     border-left: 0px;
     border-right: 0px;
     border-bottom: 1px solid var(--color-line);
 }
 
-.item-del span{
+.item-del span {
     margin-left: 0px;
     margin-right: 1vh;
     color: var(--color-line);
@@ -160,14 +160,14 @@ li {
     cursor: pointer;
 }
 
-.item-del span:hover{
+.item-del span:hover {
     transition: 0.4s;
     transition-delay: 0.5;
     color: var(--color-secondary);
     background-color: var(--color-danger);
 }
 
-.item-rad span{
+.item-rad span {
     color: var(--color-line);
     cursor: pointer;
     user-select: none;
@@ -178,16 +178,43 @@ li {
     font-size: 3vh;
 }
 
-.card-content-input-checked input{
+.card-content-input-checked input {
     color: var(--color-primary);
     text-decoration: line-through;
 }
 
-.item-rad-checked span{
+.item-rad-checked span {
     color: var(--color-primary);
     cursor: pointer;
 }
 
-.item-rad span:hover{
+.item-rad span:hover {
     color: var(--color-primary);
+}
+
+/* Mobile */
+
+@media(max-width: 452px) {
+
+    body {
+        background-color: var(--color-secondary);
+    }
+
+    .card {
+        margin-top: 0;
+        width: 100%;
+        filter: none;
+    }
+
+    .card-content {
+        height: 63vh;
+    }
+
+    .card-button {
+        bottom: 2vh;
+    }
+
+    ::-webkit-scrollbar {
+        width: 100%;
+    }
 }
