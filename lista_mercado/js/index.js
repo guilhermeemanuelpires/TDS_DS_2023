@@ -1,10 +1,53 @@
 const cardContent = window.document.getElementsByClassName("card-content")[0];
 var countIndex = 0;
+var lista_items = [];
 
 
-function deleteComponent(index){
-    const itemDelete = window.document.getElementById(index);  
-    itemDelete.outerHTML = ""; 
+function saveListStorange() {
+    const items = window.document.querySelectorAll("li");
+
+    lista_items = [];
+
+    items.forEach((item) => {
+
+
+        const id = item.id;
+        const input = item.getElementsByTagName("input")[0];
+        const status = item.getElementsByTagName("span")[1].innerHTML === "check_circle";
+
+        if (input.value !== "") {
+            lista_items.push({
+                id: id,
+                value: input.value,
+                status: status,
+            });
+        }
+
+    });
+    window.localStorage.setItem("dados", JSON.stringify(lista_items));
+}
+
+function loadItems() {
+    const list = window.localStorage.getItem("dados");
+
+    if (list) {
+        const data = JSON.parse(list);
+
+        data.forEach((item) => {
+            addItem(item);
+            countIndex = item.id;
+        });
+
+    } else {
+        window.localStorage.setItem("dados", []);
+    }
+
+};
+
+function deleteComponent(index) {
+    const itemDelete = window.document.getElementById(index);
+    itemDelete.outerHTML = "";
+    saveListStorange();
 }
 
 function onChecked(index) {
@@ -17,45 +60,55 @@ function onChecked(index) {
 
     const input = itemChecked.getElementsByTagName("input")[0];
 
-    console.log(input);
     if (isExistElemnt.length <= 0) {
         //checked
         if (input.value.trim() !== "") {
             itemRad.setAttribute("class", "item-rad item-rad-checked");
             contentInput.setAttribute("class", "card-content-input card-content-input-checked");
             span.innerHTML = "check_circle";
+            input.disabled = true;
         }
     } else {
         //unclecked
         itemRad.setAttribute("class", "item-rad");
         contentInput.setAttribute("class", "card-content-input");
         span.innerHTML = "radio_button_unchecked";
+        input.disabled = false;
     }
-
+    saveListStorange();
 }
 
-function addItem() {
-    const item = document.getElementById(countIndex - 1);
+function addItem(item) {
+
     if (item) {
-        const input = item.getElementsByTagName("input")[0];
-        if (input.value.trim() !== "") {
-            appendComponent();
-        }
+        appendComponent(item.id, item.value, item.status);
     } else {
-        appendComponent();
+       
+        const item = document.getElementById(countIndex);
+        countIndex++;
+        if (item) {
+            const input = item.getElementsByTagName("input")[0];
+            if (input.value.trim() !== "") {
+                appendComponent(countIndex);
+                saveListStorange();
+            }
+        } else {
+            appendComponent(countIndex);
+        }
     }
+
 }
 
-function appendComponent() {
+function appendComponent(index, value, status) {
     //Constroi LI
     var li = window.document.createElement("li");
-    li.setAttribute("id", countIndex++);
+    li.setAttribute("id", index);
     li.setAttribute("class", "card-content-item");
 
     // Constroi DIV-DEL
     var btnClose = window.document.createElement("div");
     btnClose.setAttribute("class", "item-del");
-    btnClose.setAttribute("onClick", "deleteComponent(" + (countIndex - 1) + ")");
+    btnClose.setAttribute("onClick", "deleteComponent(" + (index) + ")");
 
     li.appendChild(btnClose);
 
@@ -71,15 +124,31 @@ function appendComponent() {
     itemDescription.setAttribute("class", "item-description");
 
     var cardContentInput = window.document.createElement("div");
-    cardContentInput.setAttribute("class", "card-content-input");
+
+    if (status) {
+        cardContentInput.setAttribute("class", "card-content-input " +
+            " card-content-input-checked");
+    } else {
+        cardContentInput.setAttribute("class", "card-content-input");
+    }
+
 
     //Constroi Input
     var input = window.document.createElement("input");
+    input.disabled = status;
+
+    if (value) {
+        input.value = value;
+    }
 
     input.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             addItem();
         }
+    });
+
+    input.addEventListener("blur", () => {
+        saveListStorange();
     });
 
     cardContentInput.appendChild(input);
@@ -88,15 +157,28 @@ function appendComponent() {
 
     //Constroi DIv Item Rad
     var itemRad = window.document.createElement("div");
-    itemRad.setAttribute("class", "item-rad");
-    
+
+    if (status) {
+        itemRad.setAttribute("class", "item-rad item-rad-checked");
+    } else {
+        itemRad.setAttribute("class", "item-rad");
+    }
+
 
     // `onChecked(${(countIndex -1)})`            
-    itemRad.setAttribute("onClick", "onChecked(" + (countIndex - 1) + ")");
+    itemRad.setAttribute("onClick", "onChecked(" + (index) + ")");
 
     var spanChecked = window.document.createElement("span");
     spanChecked.setAttribute("class", "material-symbols-outlined");
-    spanChecked.innerHTML = "radio_button_unchecked";
+
+    if (status) {
+        spanChecked.innerHTML = "check_circle";
+    } else {
+        spanChecked.innerHTML = "radio_button_unchecked";
+    }
+
+    // spanChecked.innerHTML = status ? "check_circle" : "radio_button_unchecked";
+
 
     itemRad.appendChild(spanChecked)
 
@@ -106,3 +188,5 @@ function appendComponent() {
 
     input.focus();
 }
+
+loadItems();
