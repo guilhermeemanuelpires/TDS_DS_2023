@@ -5,6 +5,7 @@ const routes = require("./routes/index.routes");
 const app = new express();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(routes);
 
