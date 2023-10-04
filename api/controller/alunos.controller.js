@@ -1,4 +1,4 @@
-const { buscaTodos } = require("../repository/alunos.repository")
+const { buscaTodos, buscaAlunoPorId } = require("../repository/alunos.repository")
 
 
 module.exports = {
@@ -10,9 +10,13 @@ module.exports = {
             response.status(404).send({ message: "Erro ao consultar alunos!" })
         });
     },
-    listaAlunos_teste: async (request, response) => {
-        const data = await buscaTodos();
+    buscaAlunoPorID: (request, response) => {
+        const { id } = request.params;
 
-        response.send(data);
+        buscaAlunoPorId(id).then((data)=>{
+            response.send(data);
+        }).catch((error)=>{
+            response.status(500).send({message : "Erro ao consultar o aluno por ID"})
+        });
     }
 }
