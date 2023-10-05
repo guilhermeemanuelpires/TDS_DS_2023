@@ -1,4 +1,4 @@
-const { buscaTodos, buscaAlunoPorId, inserir } = require("../repository/alunos.repository")
+const { buscaTodos, buscaAlunoPorId, inserir, atualizar, deletar } = require("../repository/alunos.repository")
 
 
 module.exports = {
@@ -29,5 +29,32 @@ module.exports = {
         }).catch((error) => {
             response.status(500).send({ message: "Erro ao inserir um novo aluno" });
         })
+    },
+    atualizar: (request, response) => {
+
+        const { id } = request.params;
+        const data = request.body;
+
+        if (data.id) {
+            response.status(400).send({ message: "Não é permitido enviar o campo ID" });
+        }
+
+        atualizar(id, data).then((data) => {
+            response.send({ message: "Aluno atualizado com sucesso" })
+        }).catch((error) => {
+            console.log(error);
+            response.status(500).send({ message: "erro ao atualizar o aluno!" })
+        })
+    },
+    deletar: (request, response) => {
+        const { id } = request.params;
+
+        deletar(id).then((data) => {
+            response.send({ message: "Aluno deletado com sucesso!" });
+        }).catch((error) => {
+
+            console.log(error);
+            response.status(500).send({ message: "erro ao deletar o aluno!" })
+        });
     }
 }
