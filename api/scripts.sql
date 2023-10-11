@@ -1,4 +1,4 @@
-create databse apiDB;
+create database apiDB;
 
 CREATE TABLE `alunos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
