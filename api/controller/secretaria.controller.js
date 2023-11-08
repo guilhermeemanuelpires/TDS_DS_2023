@@ -16,6 +16,8 @@ module.exports = {
 
         const existProfessor = await buscaProfessor(professor_id);
         const existAlunos = await buscaAluno(aluno_id);
+        console.log(existProfessor);
+        console.log(existAlunos);
 
         if (existProfessor.length <= 0) {
             return response.status(404).send({ message: "ID do professor não existe na tabela professores!" });
